@@ -1,0 +1,1 @@
+D:\STUDY\Unity\Packer2025\Practice-16_19-Platformer-main\Library\Bee\Android\Prj\Mono2x\Gradle\unityLibrary\build\intermediates\cxx\RelWithDebInfo\11145z4n\obj\armeabi-v7a

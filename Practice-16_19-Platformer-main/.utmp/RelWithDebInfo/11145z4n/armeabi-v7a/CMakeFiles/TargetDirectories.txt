@@ -1,0 +1,5 @@
+D:/STUDY/Unity/Packer2025/Practice-16_19-Platformer-main/.utmp/RelWithDebInfo/11145z4n/armeabi-v7a/CMakeFiles/edit_cache.dir
+D:/STUDY/Unity/Packer2025/Practice-16_19-Platformer-main/.utmp/RelWithDebInfo/11145z4n/armeabi-v7a/CMakeFiles/rebuild_cache.dir
+D:/STUDY/Unity/Packer2025/Practice-16_19-Platformer-main/.utmp/RelWithDebInfo/11145z4n/armeabi-v7a/FramePacing/CMakeFiles/swappywrapper.dir
+D:/STUDY/Unity/Packer2025/Practice-16_19-Platformer-main/.utmp/RelWithDebInfo/11145z4n/armeabi-v7a/FramePacing/CMakeFiles/edit_cache.dir
+D:/STUDY/Unity/Packer2025/Practice-16_19-Platformer-main/.utmp/RelWithDebInfo/11145z4n/armeabi-v7a/FramePacing/CMakeFiles/rebuild_cache.dir
