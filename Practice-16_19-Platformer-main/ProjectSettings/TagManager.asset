@@ -2,24 +2,24 @@
 %TAG !u! tag:unity3d.com,2011:
 --- !u!78 &1
 TagManager:
-  serializedVersion: 3
+  serializedVersion: 2
   tags:
   - PhysicsBoundary
+  - SpawnPointHighlight
   - Block
   - Tetris
-  - SpawnPointHighlight
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - BackGround1
+  - 
   - Water
   - UI
-  - Ground
-  - Player
-  - Tetris
-  - InArms
-  - Basket
+  - blockLayer
+  - 
+  - 
+  - 
+  - 
   - 
   - 
   - 
@@ -42,23 +42,6 @@ TagManager:
   - 
   - 
   m_SortingLayers:
-  - name: BackGround3
-    uniqueID: 2243547847
-    locked: 0
-  - name: BackGround2
-    uniqueID: 483847599
-    locked: 0
-  - name: BackGround1
-    uniqueID: 1284680103
-    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: New Layer 5
-    uniqueID: 3215988009
-    locked: 0
-  - name: Player
-    uniqueID: 3987702527
-    locked: 0
-  m_RenderingLayers:
-  - Default

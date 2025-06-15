@@ -1,43 +1,84 @@
 using UnityEngine;
+using TMPro;
 using UnityEngine.UI;
+using System.Collections.Generic;
+
+[System.Serializable]
+public struct ShopItem
+{
+    public string name;
+    public string description;
+    public int price;
+    public Sprite icon;
+    public GameObject needActive;
+}
 
 public class ShopSystem : MonoBehaviour
 {
-    [System.Serializable]
-    public class ShopItem
-    {
-        public string name;
-        public int cost;
-        public GameObject blockPrefab;
-        public Button buyButton;
-    }
+    [Header("Item Settings")]
+    [SerializeField] private List<ShopItem> items = new List<ShopItem>();
 
-    [SerializeField] private ShopItem[] shopItems;
-    [SerializeField] private Transform blockSpawnPoint;
+    [Header("UI References")]
+    [SerializeField] private GameObject itemButtonPrefab;
+    [SerializeField] private Transform itemsContainer;
+    [SerializeField] private GameObject infoPanel;
+    [SerializeField] private TMP_Text itemNameText;
+    [SerializeField] private TMP_Text itemDescriptionText;
+    [SerializeField] private TMP_Text itemPriceText;
+    [SerializeField] private Button buyButton;
+
+    private ShopItem selectedItem;
+    private int intPrice;
+    private GameObject activeItem;
 
     private void Start()
     {
-        UpdateShopUI();
+        CreateItemButtons();
+        infoPanel.SetActive(false);
+        buyButton.onClick.AddListener(BuyItem);
     }
 
-    public void PurchaseItem(int itemIndex)
+    private void CreateItemButtons()
     {
-        if (itemIndex < 0 || itemIndex >= shopItems.Length) return;
-
-        ShopItem item = shopItems[itemIndex];
-        if (CurrencySystem.Instance.SpendCurrency(item.cost))
+        foreach (var item in items)
         {
-            Instantiate(item.blockPrefab, blockSpawnPoint.position, Quaternion.identity);
-            UpdateShopUI();
+            GameObject buttonGO = Instantiate(itemButtonPrefab, itemsContainer);
+            ItemButton itemButton = buttonGO.GetComponent<ItemButton>();
+            
+            if (itemButton != null)
+            {
+                itemButton.Initialize(item.icon, () => OnItemSelected(item));
+            }
         }
     }
 
-    private void UpdateShopUI()
+    private void OnItemSelected(ShopItem item)
     {
-        for (int i = 0; i < shopItems.Length; i++)
+        selectedItem = item;
+        infoPanel.SetActive(true);
+        
+        itemNameText.text = item.name;
+        itemDescriptionText.text = item.description;
+        itemPriceText.text = $"Price: {item.price}";
+        intPrice = item.price;
+        activeItem = item.needActive;
+    }
+
+    private void BuyItem()
+    {
+        if (selectedItem.price <= intPrice) // Реализуйте свою логику валюты
         {
-            shopItems[i].buyButton.interactable =
-                CurrencySystem.Instance.CanAfford(shopItems[i].cost);
+            Debug.Log($"Purchased: {selectedItem.name}");
+            CurrencySystem.Instance.CookedInShop(intPrice);
+            if(activeItem!=null)
+            {
+            	activeItem.SetActive(true);
+            }            
+            infoPanel.SetActive(false);
+        }
+        else
+        {
+            Debug.Log("Not enough currency!");
         }
     }
 }

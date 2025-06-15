@@ -44,6 +44,13 @@ public class CurrencySystem : MonoBehaviour
         return false;
     }
 
+    public void CookedInShop(int amount)
+    {
+        currentCurrency -= amount;
+            SaveCurrency();
+            UpdateUI();
+    }
+
     public void AddCurrency(int amount)
     {
         currentCurrency += amount;
