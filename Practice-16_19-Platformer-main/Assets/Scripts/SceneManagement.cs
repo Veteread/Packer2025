@@ -5,11 +5,13 @@ public class SceneManagement : MonoBehaviour
 {
     public void Scene(int Index)
     {
+        CurrencySystem.Instance?.SaveCurrency();
         SceneManager.LoadScene(Index);
     }   
 
     public void Restart()
     {
-    	SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        CurrencySystem.Instance?.SaveCurrency();
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }

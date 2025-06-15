@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 6861494270805355741}
   m_Layer: 8
   m_Name: Tet12
-  m_TagString: Tetris
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -135,7 +135,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.28, y: 0.14}
+  m_Size: {x: 0.31, y: 0.15}
   m_EdgeRadius: 0
 --- !u!114 &3930095503532056735
 MonoBehaviour:

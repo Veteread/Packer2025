@@ -4,13 +4,10 @@
 TagManager:
   serializedVersion: 3
   tags:
-  - Tetris
-  - Tet1
-  - Tet2
-  - Tet3
-  - Tet4
   - PhysicsBoundary
   - Block
+  - Tetris
+  - SpawnPointHighlight
   layers:
   - Default
   - TransparentFX

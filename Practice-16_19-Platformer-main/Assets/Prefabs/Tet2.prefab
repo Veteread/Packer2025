@@ -12,8 +12,9 @@ GameObject:
   - component: {fileID: 7075087904967510643}
   - component: {fileID: 1890144804967974298}
   - component: {fileID: 2485442392828224580}
+  - component: {fileID: 5476238964360758776}
   - component: {fileID: 8895383756116218096}
-  - component: {fileID: 4288214190130518460}
+  - component: {fileID: 1775742872203102388}
   m_Layer: 8
   m_Name: Tet2
   m_TagString: Tetris
@@ -135,6 +136,20 @@ MonoBehaviour:
   SplitPartPrefab: {fileID: 0}
   SplitPartPrefab2: {fileID: 0}
   HoldPos: 0
+--- !u!114 &5476238964360758776
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1325082587210941339}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43d23c5f277d1054b980787f181e8a32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  destroyDelay: 1.5
+  checkInterval: 0.5
 --- !u!114 &8895383756116218096
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -148,8 +163,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 0
---- !u!60 &4288214190130518460
-PolygonCollider2D:
+--- !u!61 &1775742872203102388
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -192,12 +207,5 @@ PolygonCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: -0.01722765, y: -0.010349035}
-      - {x: -0.018778801, y: 0.08051467}
-      - {x: -0.08, y: 0.08}
-      - {x: -0.08, y: -0.08}
-      - {x: 0.08, y: -0.08}
-      - {x: 0.08, y: -0.011112854}
-  m_UseDelaunayMesh: 0
+  m_Size: {x: 0.15, y: 0.15}
+  m_EdgeRadius: 0
