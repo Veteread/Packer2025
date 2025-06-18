@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 5777756237925143130}
   - component: {fileID: 5777756237925143141}
   - component: {fileID: 5777756237925143140}
-  - component: {fileID: 188381263440968149}
   - component: {fileID: 1254631605621919048}
   - component: {fileID: 5803481858391858994}
   - component: {fileID: 5777756237925143131}
@@ -124,7 +123,7 @@ BoxCollider2D:
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
+    pivot: {x: 0, y: 0}
     oldSize: {x: 0.32, y: 0.16}
     newSize: {x: 0.32, y: 0.16}
     adaptiveTilingThreshold: 0.5
@@ -134,23 +133,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.31, y: 0.15}
   m_EdgeRadius: 0
---- !u!114 &188381263440968149
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5777756237925143129}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 60188da9108c0304fbd56fcf34f041f9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Parts: 2
-  Gems: 0
-  SplitPartPrefab: {fileID: 1642476250262186773, guid: 700e07c1ae7396e47a4f466efd3bcec5, type: 3}
-  SplitPartPrefab2: {fileID: 8315218731707593240, guid: c143b7b01d0399442bf8375b86134a08, type: 3}
-  HoldPos: 0
 --- !u!114 &1254631605621919048
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -166,6 +148,7 @@ MonoBehaviour:
   type: 0
   cost: 10
   idBlock: 34
+  shape: {fileID: 0}
 --- !u!114 &5803481858391858994
 MonoBehaviour:
   m_ObjectHideFlags: 0

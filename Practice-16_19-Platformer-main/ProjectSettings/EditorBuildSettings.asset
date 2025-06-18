@@ -6,9 +6,20 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Menu.unity
+    path: Assets/Scenes/MainMenu.unity
     guid: 8c9cfa26abfee488c85f1582747f6a02
   - enabled: 1
-    path: Assets/Scenes/New Scene 1.unity
+    path: Assets/Scenes/PlanetScene.unity
+    guid: 1f3b06eb324f0904ea6140c4d96627c2
+  - enabled: 1
+    path: Assets/Scenes/DuelArena.unity
+    guid: 12066c83d09272045ab7f6eb1bd1b1b7
+  - enabled: 1
+    path: Assets/Scenes/RaidArena.unity
+    guid: 7c703264a631847469ffa824a8aa4ac6
+  - enabled: 1
+    path: Assets/Scenes/ResourcePackingScene.unity
     guid: 2288861c9f4010046932feed74f11337
-  m_configObjects: {}
+  m_configObjects:
+    com.unity.addressableassets: {fileID: 11400000, guid: 3d6f003460245614cbf2e2aed4ba1254,
+      type: 2}

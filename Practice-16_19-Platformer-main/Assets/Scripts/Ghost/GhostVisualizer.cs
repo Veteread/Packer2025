@@ -1,6 +1,9 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
+using Cysharp.Threading.Tasks;
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
 
 public class GhostVisualizer : MonoBehaviour
 {
@@ -19,6 +22,45 @@ public class GhostVisualizer : MonoBehaviour
         public GameObject ghostObject;
         public MeshRenderer meshRenderer;
         public Vector2Int[] occupiedCells;
+    }
+
+    public async UniTask VisualizeGhostsAsync(LevelData levelData)
+    {
+        await ClearGhostsAsync();
+
+        var tasks = new List<UniTask>();
+        foreach (var target in levelData.targetBlocks)
+        {
+            tasks.Add(CreateGhostAsync(target));
+        }
+
+        await UniTask.WhenAll(tasks);
+    }
+
+    private async UniTask CreateGhostAsync(LevelData.TargetBlock target)
+    {
+        // Асинхронная загрузка префаба призрака
+        var loadOp = Addressables.LoadAssetAsync<GameObject>("GhostPrefab");
+        await loadOp.ToUniTask();
+
+        if (loadOp.Status == AsyncOperationStatus.Succeeded)
+        {
+            var ghostObj = Instantiate(loadOp.Result, ghostsContainer);
+            // ... остальная логика создания призрака ...
+
+            await UniTask.Yield(); // Для распределения нагрузки
+        }
+    }
+
+    private async UniTask ClearGhostsAsync()
+    {
+        foreach (Transform child in ghostsContainer)
+        {
+            Destroy(child.gameObject);
+        }
+        ghostDataList.Clear();
+
+        await UniTask.Yield();
     }
 
     public void VisualizeGhosts(LevelData levelData)
@@ -108,61 +150,61 @@ public class GhostVisualizer : MonoBehaviour
         Debug.Log($"Occupied cells: {string.Join(", ", occupiedCells)}");
     }
 
-    private void CreateGhostMeshFromCells(MeshFilter meshFilter, Vector2Int[] cells, Vector2 center)
-    {
-        if (cells.Length == 0) return;
+    //private void CreateGhostMeshFromCells(MeshFilter meshFilter, Vector2Int[] cells, Vector2 center)
+    //{
+    //    if (cells.Length == 0) return;
 
-        Mesh mesh = new Mesh();
-        List<Vector3> vertices = new List<Vector3>();
-        List<int> triangles = new List<int>();
-        List<Vector2> uvs = new List<Vector2>();
+    //    Mesh mesh = new Mesh();
+    //    List<Vector3> vertices = new List<Vector3>();
+    //    List<int> triangles = new List<int>();
+    //    List<Vector2> uvs = new List<Vector2>();
 
-        float cellSize = basketGrid.cellSize.x;
-        int triIndex = 0;
+    //    float cellSize = basketGrid.cellSize.x;
+    //    int triIndex = 0;
 
-        foreach (Vector2Int cell in cells)
-        {
-            // Смещаем клетки относительно центра
-            Vector2 centeredCell = new Vector2(cell.x - center.x, cell.y - center.y);
+    //    foreach (Vector2Int cell in cells)
+    //    {
+    //        // Смещаем клетки относительно центра
+    //        Vector2 centeredCell = new Vector2(cell.x - center.x, cell.y - center.y);
 
-            // Рассчитываем вершины для одной клетки
-            Vector3 bottomLeft = new Vector3(centeredCell.x * cellSize, centeredCell.y * cellSize, 0);
-            Vector3 bottomRight = bottomLeft + new Vector3(cellSize, 0, 0);
-            Vector3 topLeft = bottomLeft + new Vector3(0, cellSize, 0);
-            Vector3 topRight = bottomLeft + new Vector3(cellSize, cellSize, 0);
+    //        // Рассчитываем вершины для одной клетки
+    //        Vector3 bottomLeft = new Vector3(centeredCell.x * cellSize, centeredCell.y * cellSize, 0);
+    //        Vector3 bottomRight = bottomLeft + new Vector3(cellSize, 0, 0);
+    //        Vector3 topLeft = bottomLeft + new Vector3(0, cellSize, 0);
+    //        Vector3 topRight = bottomLeft + new Vector3(cellSize, cellSize, 0);
 
-            // Добавляем вершины
-            vertices.Add(bottomLeft);
-            vertices.Add(bottomRight);
-            vertices.Add(topLeft);
-            vertices.Add(topRight);
+    //        // Добавляем вершины
+    //        vertices.Add(bottomLeft);
+    //        vertices.Add(bottomRight);
+    //        vertices.Add(topLeft);
+    //        vertices.Add(topRight);
 
-            // Добавляем треугольники
-            triangles.Add(triIndex);
-            triangles.Add(triIndex + 1);
-            triangles.Add(triIndex + 2);
+    //        // Добавляем треугольники
+    //        triangles.Add(triIndex);
+    //        triangles.Add(triIndex + 1);
+    //        triangles.Add(triIndex + 2);
 
-            triangles.Add(triIndex + 1);
-            triangles.Add(triIndex + 3);
-            triangles.Add(triIndex + 2);
+    //        triangles.Add(triIndex + 1);
+    //        triangles.Add(triIndex + 3);
+    //        triangles.Add(triIndex + 2);
 
-            // UV координаты
-            uvs.Add(new Vector2(0, 0));
-            uvs.Add(new Vector2(1, 0));
-            uvs.Add(new Vector2(0, 1));
-            uvs.Add(new Vector2(1, 1));
+    //        // UV координаты
+    //        uvs.Add(new Vector2(0, 0));
+    //        uvs.Add(new Vector2(1, 0));
+    //        uvs.Add(new Vector2(0, 1));
+    //        uvs.Add(new Vector2(1, 1));
 
-            triIndex += 4;
-        }
+    //        triIndex += 4;
+    //    }
 
-        mesh.vertices = vertices.ToArray();
-        mesh.triangles = triangles.ToArray();
-        mesh.uv = uvs.ToArray();
-        mesh.RecalculateNormals();
-        mesh.RecalculateBounds();
+    //    mesh.vertices = vertices.ToArray();
+    //    mesh.triangles = triangles.ToArray();
+    //    mesh.uv = uvs.ToArray();
+    //    mesh.RecalculateNormals();
+    //    mesh.RecalculateBounds();
 
-        meshFilter.mesh = mesh;
-    }
+    //    meshFilter.mesh = mesh;
+    //}
 
     private void CreateGhostMesh(MeshFilter meshFilter, Vector2Int[] cells)
     {
@@ -213,47 +255,55 @@ public class GhostVisualizer : MonoBehaviour
         meshFilter.mesh = mesh;
     }
 
-    private Vector2 CalculateShapeCenter(Vector2Int[] cells)
+    public void HighlightGhost(GhostData ghost, Color color)
     {
-        if (cells.Length == 0) return Vector2.zero;
-
-        float sumX = 0;
-        float sumY = 0;
-
-        foreach (Vector2Int cell in cells)
+        if (ghost != null && ghost.meshRenderer != null)
         {
-            sumX += cell.x;
-            sumY += cell.y;
-        }
-
-        return new Vector2(sumX / cells.Length, sumY / cells.Length);
-    }
-
-    private void ClearTexture(Texture2D texture, Color color)
-    {
-        Color[] pixels = new Color[texture.width * texture.height];
-        for (int i = 0; i < pixels.Length; i++)
-        {
-            pixels[i] = color;
-        }
-        texture.SetPixels(pixels);
-    }
-
-    private void DrawCell(Texture2D texture, int x, int y, Color color)
-    {
-        int size = 30; // Размер клетки (с зазором)
-
-        for (int i = x + 1; i < x + size; i++)
-        {
-            for (int j = y + 1; j < y + size; j++)
-            {
-                if (i >= 0 && i < texture.width && j >= 0 && j < texture.height)
-                {
-                    texture.SetPixel(i, j, color);
-                }
-            }
+            ghost.meshRenderer.material.color = color;
         }
     }
+
+    //private Vector2 CalculateShapeCenter(Vector2Int[] cells)
+    //{
+    //    if (cells.Length == 0) return Vector2.zero;
+
+    //    float sumX = 0;
+    //    float sumY = 0;
+
+    //    foreach (Vector2Int cell in cells)
+    //    {
+    //        sumX += cell.x;
+    //        sumY += cell.y;
+    //    }
+
+    //    return new Vector2(sumX / cells.Length, sumY / cells.Length);
+    //}
+
+    //private void ClearTexture(Texture2D texture, Color color)
+    //{
+    //    Color[] pixels = new Color[texture.width * texture.height];
+    //    for (int i = 0; i < pixels.Length; i++)
+    //    {
+    //        pixels[i] = color;
+    //    }
+    //    texture.SetPixels(pixels);
+    //}
+
+    //private void DrawCell(Texture2D texture, int x, int y, Color color)
+    //{
+    //    int size = 30; // Размер клетки (с зазором)
+
+    //    for (int i = x + 1; i < x + size; i++)
+    //    {
+    //        for (int j = y + 1; j < y + size; j++)
+    //        {
+    //            if (i >= 0 && i < texture.width && j >= 0 && j < texture.height)
+    //            {
+    //                texture.SetPixel(i, j, color);
+    //            }
+    //        }
+    //    }
+    //}
 
     public bool CheckBlockMatch(Block playerBlock)
     {
@@ -297,47 +347,47 @@ public class GhostVisualizer : MonoBehaviour
 
    
 
-    private Vector2 CalculateCenteringOffset(BlockShape shape)
-    {
-        // Находим границы формы
-        int minX = shape.Cells.Min(c => c.x);
-        int maxX = shape.Cells.Max(c => c.x);
-        int minY = shape.Cells.Min(c => c.y);
-        int maxY = shape.Cells.Max(c => c.y);
+    //private Vector2 CalculateCenteringOffset(BlockShape shape)
+    //{
+    //    // Находим границы формы
+    //    int minX = shape.Cells.Min(c => c.x);
+    //    int maxX = shape.Cells.Max(c => c.x);
+    //    int minY = shape.Cells.Min(c => c.y);
+    //    int maxY = shape.Cells.Max(c => c.y);
 
-        // Рассчитываем центр
-        float centerX = (minX + maxX) / 2f;
-        float centerY = (minY + maxY) / 2f;
+    //    // Рассчитываем центр
+    //    float centerX = (minX + maxX) / 2f;
+    //    float centerY = (minY + maxY) / 2f;
 
-        // Смещение для центрирования относительно (0,0)
-        return new Vector2(-centerX, -centerY);
-    }
+    //    // Смещение для центрирования относительно (0,0)
+    //    return new Vector2(-centerX, -centerY);
+    //}
 
-    private Vector2 CalculateRotationOffset(BlockShape shape, int rotationIndex)
-    {
-        if (shape.Cells.Count == 0) return Vector2.zero;
+    //private Vector2 CalculateRotationOffset(BlockShape shape, int rotationIndex)
+    //{
+    //    if (shape.Cells.Count == 0) return Vector2.zero;
 
-        // Находим минимальные координаты
-        int minX = shape.Cells.Min(c => c.x);
-        int minY = shape.Cells.Min(c => c.y);
+    //    // Находим минимальные координаты
+    //    int minX = shape.Cells.Min(c => c.x);
+    //    int minY = shape.Cells.Min(c => c.y);
 
-        Vector2 offset = Vector2.zero;
+    //    Vector2 offset = Vector2.zero;
 
-        switch (rotationIndex)
-        {
-            case 1: // 90°
-                offset = new Vector2(minY, -minX);
-                break;
-            case 2: // 180°
-                offset = new Vector2(-minX, -minY);
-                break;
-            case 3: // 270°
-                offset = new Vector2(-minY, minX);
-                break;
-        }
+    //    switch (rotationIndex)
+    //    {
+    //        case 1: // 90°
+    //            offset = new Vector2(minY, -minX);
+    //            break;
+    //        case 2: // 180°
+    //            offset = new Vector2(-minX, -minY);
+    //            break;
+    //        case 3: // 270°
+    //            offset = new Vector2(-minY, minX);
+    //            break;
+    //    }
 
-        return offset * basketGrid.cellSize.x;
-    }
+    //    return offset * basketGrid.cellSize.x;
+    //}
     
     public void SaveOriginalColors(Block block)
     {

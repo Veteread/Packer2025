@@ -1,3 +1,4 @@
+
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -13,8 +14,8 @@ public class Block : MonoBehaviour
     [SerializeField] private int cost = 10;
     public int idBlock;
     public bool WasCounted { get; private set; }
-    public bool IsMatched { get;  set; } = false;
-    
+    public bool IsMatched { get; set; } = false;
+
     [SerializeField] private BlockShape shape;
     public BlockShape Shape => shape;
     private Grid basketGrid;

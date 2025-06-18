@@ -5,10 +5,10 @@ public class BlockSpawnSystem : MonoBehaviour
     [SerializeField] private Transform[] spawnPoints;
     [SerializeField] private float selectionRadius = 0.2f;
     [SerializeField] private GameObject highlightPrefab;
-    
+
     public Transform SelectedPoint { get; private set; }
     public bool pointVisible = false;
-    
+
     public void ShowSpawnPoints()
     {
         ClearHighlights();
@@ -51,7 +51,7 @@ public class BlockSpawnSystem : MonoBehaviour
         var blockComponent = prefab.GetComponent<Block>();
         if (blockComponent == null || !CurrencySystem.Instance.CanAfford(blockComponent.GetCost()))
         {
-            Debug.Log("Недостаточно средств или отсутствует компонент Block");
+            Debug.Log("???????????? ??????? ??? ??????????? ????????? Block");
             return null;
         }
 

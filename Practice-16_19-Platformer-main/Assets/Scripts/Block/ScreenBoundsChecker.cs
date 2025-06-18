@@ -1,3 +1,4 @@
+
 using UnityEngine;
 
 public class ScreenBoundsChecker : MonoBehaviour
@@ -32,9 +33,7 @@ public class ScreenBoundsChecker : MonoBehaviour
 
         if (isOutside)
         {
-           // if (block != null && !block.WasCounted)
             CurrencySystem.Instance?.Refund(block.GetCost());
-            SaveLoadManager.DecreaseBlockCount(block.idBlock, 1);
             Destroy(gameObject, 1f);
         }
     }

@@ -4,10 +4,12 @@
 TagManager:
   serializedVersion: 2
   tags:
+  - CinemachineTarget
   - PhysicsBoundary
   - SpawnPointHighlight
   - Block
   - Tetris
+  - Planet
   layers:
   - Default
   - TransparentFX
@@ -15,8 +17,8 @@ TagManager:
   - 
   - Water
   - UI
-  - blockLayer
-  - 
+  - Player
+  - FirstPersonOverlay
   - 
   - 
   - 

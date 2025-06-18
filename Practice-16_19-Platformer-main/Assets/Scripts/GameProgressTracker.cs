@@ -11,28 +11,16 @@ public class GameProgressTracker : MonoBehaviour
     [SerializeField][Range(0, 1)] private float completionThreshold = 0.7f;
     [SerializeField] private LayerMask blockLayer;
 
-    [Header("Save Settings")]
-    [SerializeField] private bool autoSave = true;
-    [SerializeField] private float saveInterval = 5f;
-
+    
     private float lastSaveTime;
     private float currentProgress;
 
     private void Start()
     {
-        LoadProgress();
         UpdateProgressUI(currentProgress);
     }
 
-    private void Update()
-    {
-        if (Time.time - lastSaveTime >= saveInterval && autoSave)
-        {
-            SaveProgress();
-            lastSaveTime = Time.time;
-        }
-    }
-
+    
     public void CheckCompletion()
     {
         if (!ValidateComponents()) return;
@@ -129,40 +117,7 @@ public class GameProgressTracker : MonoBehaviour
     private void OnCompletionReached()
     {
         Debug.Log("Level Completed!");
-        SaveProgress();
     }
 
-    #region Save/Load Integration
-    [System.Serializable]
-    private class ProgressData
-    {
-        public float progress;
-    }
-
-    public void SaveProgress()
-    {
-        var data = new ProgressData { progress = currentProgress };
-        SaveLoadManager.Save(data, "progress");
-    }
-
-    public void LoadProgress()
-    {
-        ProgressData data = SaveLoadManager.Load<ProgressData>("progress");
-        currentProgress = data?.progress ?? 0f;
-    }
-    #endregion
-
-    public void PrintSavedProgress()
-    {
-        ProgressData data = SaveLoadManager.Load<ProgressData>("progress");
-        
-        if(data != null)
-        {
-            Debug.Log($"Saved progress: {data.progress * 100}%");
-        }
-        else
-        {
-            Debug.Log("No saved data found");
-        }
-    }
+    
 }

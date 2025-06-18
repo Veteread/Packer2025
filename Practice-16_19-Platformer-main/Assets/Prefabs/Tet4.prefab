@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 7862157502642808396}
   - component: {fileID: 7535594110761509351}
   - component: {fileID: 7002065161821207338}
-  - component: {fileID: 2919681446531705983}
   m_Layer: 6
   m_Name: Tet4
   m_TagString: Tetris
@@ -176,6 +175,7 @@ MonoBehaviour:
   type: 0
   cost: 10
   idBlock: 4
+  shape: {fileID: 0}
 --- !u!114 &7002065161821207338
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -189,20 +189,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   checkInterval: 0.5
---- !u!114 &2919681446531705983
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8315218731707593240}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 60188da9108c0304fbd56fcf34f041f9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Parts: 1
-  Gems: 0
-  SplitPartPrefab: {fileID: 0}
-  SplitPartPrefab2: {fileID: 0}
-  HoldPos: 0
